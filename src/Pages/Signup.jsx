@@ -40,7 +40,7 @@ function Signup() {
         }
         try {
             
-            const response=await  axios.post("http://localhost:5002/register",{...loginData},{withCredentials:true});
+            const response=await  axios.post("https://zwigato-backend-dm7f.onrender.com/register",{...loginData},{withCredentials:true});
             // console.log(response);
             if(response?.data?.success){
                 console.log(response);
