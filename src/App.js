@@ -1,24 +1,29 @@
-import logo from './logo.svg';
+
 import './App.css';
+import NavBar from './Components/Navbar';
+import Home from './Pages/Home';
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
+import { Routes,Route } from 'react-router-dom'
+import { userContext } from './Context/UserContext';
+import useProduct from './Hooks/useProduct';
+
 
 function App() {
+  const [tags,setTags,data,setData,user,setUser]=useProduct();
+  console.log("data at app ",tags);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    
+    <userContext.Provider  value={{tags:tags,data:data,user:user,setUser:setUser} }>
+      {/* <NavBar/> */}
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/signup' element={<Signup/>}/>
+      </Routes>
+   
+
+    </userContext.Provider>
   );
 }
 
