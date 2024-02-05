@@ -28,7 +28,7 @@ setData(data);
 
 try {
     if(user?.role=="admin"){
-        const  response=await axios.get("https://zwigato-backend-dm7f.onrender.com/getAllOrders",{withCredentials:true});
+        const  response=await axios.get("https://zwigato-backend-dm7f.onrender.com/getAllOrders");
         console.log(response.data);
         setOrder(response?.data?.order)
     }
