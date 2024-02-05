@@ -11,7 +11,7 @@ function Block({data}) {
   async  function fun(e){
     console.log(e.target.value);
         if(e.target.value!=tempStatus){
-            const response= await axios.put(`http://localhost:5002/updateOrderStatus`,{status:e.target.value,id:data._id},{withCredentials:true});
+            const response= await axios.put(`https://zwigato-backend-dm7f.onrender.com/updateOrderStatus`,{status:e.target.value,id:data._id},{withCredentials:true});
               
             if(response.data.success){
                 toast.success("status updated")
