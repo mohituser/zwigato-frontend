@@ -43,7 +43,7 @@ function Login() {
             // navigate("/");
             try {
             
-                const response=await  axios.post("https://zwigato-backend-dm7f.onrender.com/login",{...loginData},{withCredentials:true});
+                const response=await  axios.post("https://zwigato-backend-dm7f.onrender.com/login",{...loginData});
                 // console.log(response);
                 if(response?.data?.success){
                     console.log(response);
