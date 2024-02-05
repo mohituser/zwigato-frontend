@@ -103,9 +103,8 @@ function Cart() {
     }
 
 
-function setLocation(e){
+function fun2(e){
   setLiveLocation(e.target.value);
-
 }
 
     function PhoneFun(e){
@@ -164,7 +163,7 @@ function setLocation(e){
           }
           <div className=''>
             <div className='flex items-center justify-end text-2xl mb-10'> <span>Total Amount: </span> <span className='flex items-center mx-3  text-green-600 font-bold'><FaIndianRupeeSign /> {totalCost} </span></div>
-            <div className='flex flex-col  items-end justify-center m-3 ' ><input type="text" className='py-1 px-3 text-black'  placeholder='your address' onChange={setLocation} value={liveLocation}/> <button onClick={getLocation} className='hover:bg-green-600 transistion-all duration-500 py-1 px-5 my-3 bg-green-700   rounded-2xl font-bold'>live location</button> </div>
+            <div className='flex flex-col  items-end justify-center m-3 ' ><input type="text" className='py-1 px-3 text-black'  placeholder='your address' onChange={(e)=>fun2(e)} value={liveLocation}/> <button onClick={getLocation} className='hover:bg-green-600 transistion-all duration-500 py-1 px-5 my-3 bg-green-700   rounded-2xl font-bold'>live location</button> </div>
             <div className='flex flex-col  items-end justify-center m-3 ' ><input type="text"  className='py-1 my-5 px-3 text-black'  placeholder=' contact number' value={phone} onChange={(e)=>PhoneFun(e)} />  </div>
             <div className='flex items-center justify-end m-3 '><button onClick={Order} className=' hover:bg-green-600 transistion-all duration-500 bg-green-700 py-1 px-5 my-5 rounded-2xl font-bold'>Order Now</button></div>
           </div>
