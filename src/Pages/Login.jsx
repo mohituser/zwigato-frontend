@@ -12,7 +12,6 @@ import { userContext } from '../Context/UserContext';
 
 function Login() {
 
-    // const dispatch = useDispatch();
     const navigate = useNavigate();
     const {user,setUser}=useContext(userContext);
 
@@ -70,6 +69,7 @@ function Login() {
                 toast.error(error.response.data.message)
             }
     }
+    if(user){ return navigate("/")}
 
     return (
         <>

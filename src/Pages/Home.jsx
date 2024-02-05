@@ -39,7 +39,7 @@ function Home() {
     let val="";
     if(name!=""){val=name;}
     else{val=e?.target?.value}
-      // console.log("x",typeof(e.target.value))
+      // console.log("x...........",e?.code)
       setSearchItem(val);
     setNotFound(false);
     let x=searchData.filter((data)=>data.show.includes((val).toLowerCase()));
@@ -49,7 +49,9 @@ function Home() {
 
 
 
-  async function onsubmitFun(){
+  async function onsubmitFun(e){
+    if(e?.code?.length>0 && e?.code!="Enter"){return;}
+
     console.log("saeiai",searchItem.length);
     let val=searchData.filter((dat)=>dat.show==(searchItem.toLowerCase()));
     console.log("val",val);
@@ -80,7 +82,6 @@ function Home() {
   function onClickFun(e){
     if(e.target.tagName!="INPUT" && showSearchData){
       SetShowSearchData(false); 
-      
     }
     console.log("onclicked",e);
   // if(e.target.tagName!="")
@@ -91,7 +92,7 @@ function Home() {
     <Navbar/>
     < div onClick={(e)=>onClickFun(e)} className="relative  w-full bg-slate-700 text-white overflow-hidden">
         <img src={`https://cdn.dummyjson.com/recipe-images/${randomNumber}.webp`}  alt="" className=" content-stretch  w-[100vw] h-[80vh] opacity-[0.75] brightness-[25%]" />
-        <div className="absolute top-[50vh] left-0 right-0 bg-transparent text-white meal-search w-[100vw]">
+        <div className="absolute top-[25vh] md:top-[50vh] left-0 right-0 bg-transparent text-white meal-search w-[100vw]">
           <h2 className=" text-4xl text-center mb-5">Find Meals For Your Ingredeints</h2>
           <div className="  w-[60%] flex  mx-auto my-3 items-center  ">
             <div className='relative flex w-[100%] '>
@@ -102,9 +103,10 @@ function Home() {
               value={searchItem}
               onChange={fun}
               onClick={()=>SetShowSearchData(true)}
+              onKeyPress={(e)=>{onsubmitFun(e)}}
             />
-            <button onClick={(e)=>onsubmitFun(e)} type="submit" className="w-[15%] p-2 flex justify-center rounded-r-full hover:bg-green-700 bg-green-800" >
-             <FaSearch  className=" text-2xl"/> 
+            <button onClick={(e)=>onsubmitFun(e)} type="submit" className="w-[15%] group p-2 flex justify-center rounded-r-full hover:bg-green-700 bg-green-800" >
+             <FaSearch  className=" text-2xl group-hover:scale-105 "/> 
             </button>
            { showSearchData &&  <div className='absolute top-10 left-5 rounded-lg px-4 w-auto text-black  bg-slate-200'>
             <ul>
@@ -119,7 +121,7 @@ function Home() {
           </div>
          
         </div>
-        <div className='  w-[90%] my-4 mx-auto  '>  
+        <div className=' w-[90%] my-4 mx-auto  '>  
         {notFound && searchResult==null && <>
           <h1 className='text-3xl text-center my-5  underline  py-5'> Search Results</h1>
           <div className='text-green-700 text-3xl text-center'>Sorry, this dish is not available</div>
@@ -140,7 +142,7 @@ function Home() {
                       keyId1++;        
                       if(i>=limit)return <></>
                       return<>
-                      <h1 key={keyId1} className='text-2xl border-b-2'> {tags[i]}</h1>
+                      <h1 key={keyId1} className='text-2xl border-b-2 border-gray-400'> {tags[i]}</h1>
                       <div key={keyId1} className='flex flex-wrap'>
                       {dat?.recipes.map((d,j)=>{
                          keyId++;

@@ -1,33 +1,45 @@
 import React, { useContext } from 'react';
 import image from "../Assets/logo.webp"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { userContext } from '../Context/UserContext';
 import toast from 'react-hot-toast';
+import { IoCartOutline } from "react-icons/io5";
 
 function Navbar() {
-const {user,setUser}=useContext(userContext);
+const {user,setUser,totalItems,setOrder}=useContext(userContext);
+const navigate=useNavigate();
  function  logoutFun(){
   localStorage.removeItem("user");
   setUser(null);
+  setOrder([]);
   toast.success("Successfully Logout");
+  navigate("/")
 }
   return (
     <div className=' bg-green-800 h-[10vh] text-white '>
-    <div className=' flex w-[80vw] items-center  m-auto justify-between'>
+    <div className=' flex md:w-[80vw] items-center  pt-3  md:m-auto mx-3  justify-between'>
       <div>
         {/* <img src={image} className="w-20" alt="" /> */}
-        <Link to="/"><h1 className="text-3xl "><span className="text-5xl">
+        <Link to="/"><h1 className="text-3xl font-bold "><span className="text-5xl">
          Z</span>wigato</h1></Link> 
       </div>
       
-        <ul className='flex justify-center w-[50%]'>
-          {!user ? <><li className="mx-6">
+        <ul className='flex justify-center items-center w-[50%]'>
+        <li className="cursor-pointer md:mx-3 mx-2 hover:scale-105" ><Link to="/cart" className='relative'> 
+             <IoCartOutline size={"2rem"}/>
+            {totalItems>0 &&  <button className='absolute -top-3 right-2 bg-red-700 px-1 rounded-lg font-bold'>{totalItems}</button>}
+            </Link></li>
+          {!user ? <><li className="cursor-pointer hover:bg-green-700 md:mx-3 mx-2 border-2 rounded-2xl py-1 px-3">
           <Link to="/login"> Login</Link>
             </li>
-          <li  className="mx-6">
+          <li  className="cursor-pointer hover:bg-green-700 md:mx-3 mx-2 border-2 rounded-2xl py-1 px-3">
             <Link to="/signup">  Signup </Link></li></> :<>
             {/* <li className='mx-6'>Myorders</li> */}
-            <li className="cursor-pointer mx-6" onClick={logoutFun} >logout</li>
+           
+            <Link to="/order"><li className="cursor-pointer hover:scale-[102%] md:mx-3  py-1 md:px-3 mx-2" >
+             {user?.role=="admin" ?("orders"):(" Myorders")}
+              </li></Link>
+            <li className="cursor-pointer hover:bg-green-700 md:mx-3 mx-2 border-2 rounded-2xl py-1 text-red-400 md:px-3 px-1" onClick={logoutFun} >logout</li>
             </>}
         </ul>
       

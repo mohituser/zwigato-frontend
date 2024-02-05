@@ -64,8 +64,10 @@ function Signup() {
        
     }
 
+    if(user){return navigate("/")}
     return (
         <>
+        
     <Navbar/>
             <div className='flex overflow-x-auto items-center justify-center h-[90vh] bg-gray-500'>
                 <form noValidate onSubmit={submitForm} className=' relative flex flex-col justify-center gap-3 rounded-lg p-4 text-white w-96 shadow-[0_0_10px_black]'>

@@ -17,23 +17,41 @@ async function fun(setTags,setData,setUser){
         return res.data;
     })
     data=await axios.all(data);
-//     let newdata=data?.map((dat,i)=>{
-// return {tags[i]:dat}
-//     })
+
     console.log("data.......",data);
 
 setData(data);
-    // const data=await res.json();
-    // console.log(data);
-    // setData(data);
+ 
 }
+
+ async function getOrderItems(setOrder,user){
+
+try {
+    if(user?.role=="admin"){
+        const  response=await axios.get("http://localhost:5002/getAllOrders",{withCredentials:true});
+        console.log(response.data);
+        setOrder(response?.data?.order)
+    }
+    else{
+    const  response=await axios.get("http://localhost:5002/getOrders",{withCredentials:true});
+    console.log("use......",response.data);
+    setOrder(response?.data?.order)
+}
+    
+} catch (error) {
+    console.log("error at getorder...",error);
+    
+}
+ }
+
 export default function useProduct(){
     const [data,setData]=useState([]);
     const [tags,setTags]=useState([]);
-    const [user,setUser]=useState(null)
+    const [user,setUser]=useState(null);
+    const [order,setOrder]=useState(null);
     useEffect(()=>{
         fun(setTags,setData,setUser);
 
     },[])
-    return [tags,setTags,data,setData,user,setUser];
+    return [tags,setTags,data,setData,user,setUser,order,setOrder,getOrderItems];
 }
