@@ -14,7 +14,7 @@ function Block({data}) {
         if(e.target.value!=tempStatus){
             // const response= await axios.put(`https://zwigato-backend-dm7f.onrender.com/updateOrderStatus`,{status:e.target.value,id:data._id},{withCredentials:true});
             const BASE_URL="https://zwigato-backend-dm7f.onrender.com/updateOrderStatus";
-            const response= apiConnector("Put",BASE_URL,{status:e.target.value,id:data._id},{
+            const response= apiConnector("PUT",BASE_URL,{status:e.target.value,id:data._id},{
                Authorization: `Bearer ${token}`,
             });
               
