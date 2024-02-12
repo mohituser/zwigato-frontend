@@ -4,14 +4,19 @@ import moment from "moment";
 import axios from 'axios';
 import { userContext } from '../Context/UserContext';
 import toast from "react-hot-toast"
+import { apiConnector } from '../Helpers/axiosInstance';
 
 function Block({data}) {
     const [tempStatus,setTempStatus]=useState(data.status);
-    const {getOrderItems,user,order,setOrder}=useContext(userContext);
+    const {getOrderItems,user,order,setOrder,token}=useContext(userContext);
   async  function fun(e){
     console.log(e.target.value);
         if(e.target.value!=tempStatus){
-            const response= await axios.put(`https://zwigato-backend-dm7f.onrender.com/updateOrderStatus`,{status:e.target.value,id:data._id},{withCredentials:true});
+            // const response= await axios.put(`https://zwigato-backend-dm7f.onrender.com/updateOrderStatus`,{status:e.target.value,id:data._id},{withCredentials:true});
+            const BASE_URL="https://zwigato-backend-dm7f.onrender.com/updateOrderStatus";
+            const response= apiConnector("Put",BASE_URL,{status:e.target.value,id:data._id},{
+               Authorization: `Bearer ${token}`,
+            });
               
             if(response.data.success){
                 toast.success("status updated")
