@@ -16,7 +16,7 @@ function Signup() {
 
     // const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {user,setUser}=useContext(userContext);
+    const {user,setUser,setToken}=useContext(userContext);
     const [loginData, setLoginData] = useState({
         fullname:"",
         email: "",
@@ -49,7 +49,9 @@ function Signup() {
                 console.log(response);
             navigate("/");
             localStorage.setItem("user",JSON.stringify(response.data.user));
+            localStorage.setItem("token",response.data.token);
             setUser(response.data.user);
+            setToken(response.data.token);
             toast.success("Successfully Registered")
         setLoginData({
             email: "",

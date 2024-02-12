@@ -14,7 +14,7 @@ import { apiConnector } from '../Helpers/axiosInstance';
 function Login() {
 
     const navigate = useNavigate();
-    const {user,setUser}=useContext(userContext);
+    const {user,setUser,setToken}=useContext(userContext);
 
     const [loginData, setLoginData] = useState({
         email: "",
@@ -52,7 +52,9 @@ function Login() {
                     console.log(response);
                 navigate("/");
                 localStorage.setItem("user",JSON.stringify(response.data.user));
+                localStorage.setItem("token",response.data.token);
                 setUser(response.data.user);
+                setToken(response.data.token);
                toast.success("login successfully")
             setLoginData({
                 email: "",

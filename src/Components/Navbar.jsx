@@ -6,11 +6,13 @@ import toast from 'react-hot-toast';
 import { IoCartOutline } from "react-icons/io5";
 
 function Navbar() {
-const {user,setUser,totalItems,setOrder}=useContext(userContext);
+const {user,setUser,totalItems,setOrder,setToken}=useContext(userContext);
 const navigate=useNavigate();
  function  logoutFun(){
   localStorage.removeItem("user");
+  localStorage.removeItem("token");
   setUser(null);
+  setToken(null);
   setOrder([]);
   toast.success("Successfully Logout");
   navigate("/")

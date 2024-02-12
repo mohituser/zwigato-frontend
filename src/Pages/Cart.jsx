@@ -11,7 +11,7 @@ import { apiConnector } from '../Helpers/axiosInstance';
 
 function Cart() {
     const navigate=useNavigate();
-    const {user,setUser,cartItem,setCartItem,setTotalItems,totalItems,order,setOrder}=useContext(userContext);
+    const {user,setUser,cartItem,setCartItem,setTotalItems,totalItems,order,setOrder,token}=useContext(userContext);
     const [liveLocation,setLiveLocation]=useState("");
     const [phone,setPhone]=useState("");
     const [totalCost,setTotalCost]=useState(0);
@@ -84,7 +84,12 @@ function Cart() {
 
       try {
         const orderedItem={customerId:user._id,phone,address:liveLocation,quantity:totalItems,items}
-        const response=await  axios.post("http://localhost:5002/updateOrderItem",{orderedItem},{withCredentials:true});
+        // const response=await  axios.post("http://localhost:5002/updateOrderItem",{orderedItem},{withCredentials:true});
+        const BASE_URL="https://zwigato-backend-dm7f.onrender.com/updateOrderItem";
+        // const response=await apiConnector("POST",BASE_URL,{orderedItem});
+        const response=await apiConnector("POST",BASE_URL,{orderedItem},{
+          Authorization: `Bearer ${token}`,
+      });
         console.log("response",response?.data?.order);
         // setOrder(response?.data?.order);
         // if(response?.data?.success){
@@ -93,7 +98,7 @@ function Cart() {
         setCartItem([]);
         setTotalCost(0);
         setTotalItems(0);
-
+if(response?.data?.order)
         navigate("/order")
         
       } catch (error) {

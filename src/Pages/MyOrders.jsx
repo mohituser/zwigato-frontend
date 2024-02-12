@@ -6,13 +6,13 @@ import moment from "moment";
 import UserOrder from '../Components/UserOrder';
 import AdminOrder from '../Components/AdminOrder';
 function MyOrders() {
-    const {getOrderItems,user,order,setOrder}=useContext(userContext);
+    const {getOrderItems,user,order,setOrder,token}=useContext(userContext);
     const navigate=useNavigate();
     useEffect(()=>{
         
         if(!user){navigate("/login");}
         else{
-            getOrderItems(setOrder,user);
+            getOrderItems(setOrder,user,token);
             console.log("user.........",order);}
     },[])
   return (  <>
