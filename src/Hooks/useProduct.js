@@ -33,7 +33,8 @@ try {
     //     setOrder(response?.data?.order)
     // }
     // else{
-    const  response=await axios.get("https://zwigato-backend-dm7f.onrender.com/getOrders",{withCredentials:true});
+    // const  response=await axios.get("https://zwigato-backend-dm7f.onrender.com/getOrders",{withCredentials:true});
+    const  response=await axios.get("https://cute-red-fawn-cuff.cyclic.app/getOrders",{withCredentials:true});
     console.log("use......",response.data);
     setOrder(response?.data?.order)
 // }
