@@ -9,6 +9,7 @@ import axios from "axios";
 // import { login } from '../Redux/Slices/AuthSlice';
 import Navbar from "../Components/Navbar"
 import { userContext } from '../Context/UserContext';
+import { apiConnector } from '../Helpers/axiosInstance';
 
 function Login() {
 
@@ -43,8 +44,12 @@ function Login() {
             // navigate("/");
             try {
             
-                const response=await  axios.post("https://zwigato-backend-dm7f.onrender.com/login",{...loginData},{withCredentials:true});
+                // const response=await  axios.post("http://localhost:5002/login",{...loginData},{withCredentials:true});
+                // const response=await  axios.post("http://localhost:5002/login",{...loginData});
+                // const response=await  axios.post("https://zwigato-backend-dm7f.onrender.com/login",{...loginData},{withCredentials:true});
                 // console.log(response);
+                const BASE_URL="https://zwigato-backend-dm7f.onrender.com/login";
+                const response=await apiConnector("POST",BASE_URL,{...loginData});
                 if(response?.data?.success){
                     console.log(response);
                 navigate("/");
@@ -65,8 +70,8 @@ function Login() {
                 //     // fullname:"",
                     
                 // });
-                console.log("error",error.response.data.message);
-                toast.error(error.response.data.message)
+                // console.log("error",error.response.data.message);
+                toast.error(error)
             }
     }
     if(user){ return navigate("/")}

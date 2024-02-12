@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Navbar from "../Components/Navbar"
 import axios from "axios"
 import { userContext } from '../Context/UserContext';
+import { apiConnector } from '../Helpers/axiosInstance';
 
 function Signup() {
 
@@ -40,8 +41,10 @@ function Signup() {
         }
         try {
             
-            const response=await  axios.post("https://zwigato-backend-dm7f.onrender.com/register",{...loginData},{withCredentials:true});
+            // const response=await  axios.post("https://zwigato-backend-dm7f.onrender.com/register",{...loginData},{withCredentials:true});
             // console.log(response);
+            const BASE_URL="https://zwigato-backend-dm7f.onrender.com/register";
+            const response=await apiConnector("POST",BASE_URL,{...loginData});
             if(response?.data?.success){
                 console.log(response);
             navigate("/");

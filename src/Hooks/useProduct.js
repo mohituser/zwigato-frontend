@@ -1,5 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { apiConnector } from "../Helpers/axiosInstance";
+
 
 async function fun(setTags,setData,setUser){
     let data=[];
@@ -28,12 +30,22 @@ setData(data);
 
 try {
     if(user?.role=="admin"){
-        const  response=await axios.get("http://localhost:5002/getAllOrders",{withCredentials:true});
-        console.log(response.data);
-        setOrder(response?.data?.order)
+        const BASE_URL="https://zwigato-backend-dm7f.onrender.com/getAllOrders";
+        const response=await apiConnector("GET",BASE_URL);
+        // const  response=await axios.get("http://localhost:5002/getAllOrders",{withCredentials:true});
+        // const  response=await axios("http://localhost:5002/getAllOrders");
+        // const  response=await axios.get("http://localhost:5002/getAllOrders",null,null,);
+        // const  response=await axios.get("https://zwigato-backend-dm7f.onrender.com/getAllOrders",{withCredentials:true});
+        // const res=await response.json();
+        console.log(response);
+        setOrder(response?.data?.order);
     }
     else{
-    const  response=await axios.get("http://localhost:5002/getOrders",{withCredentials:true});
+    // const  response=await axios.get("http://localhost:5002/getOrders",{withCredentials:true});
+    // const  response=await axios.get("http://localhost:5002/getOrders");
+    // const  response=await axios.get("https://zwigato-backend-dm7f.onrender.com/getOrders",{withCredentials:true});
+    const BASE_URL="https://zwigato-backend-dm7f.onrender.com/getOrders";
+    const response=await apiConnector("GET",BASE_URL);
     console.log("use......",response.data);
     setOrder(response?.data?.order)
 }
