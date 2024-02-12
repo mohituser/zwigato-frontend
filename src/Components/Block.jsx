@@ -21,7 +21,7 @@ function Block({data}) {
             if(response?.data?.success){
                 toast.success("status updated")
                 console.log("updated status ..",response.data);
-               await getOrderItems(setOrder,user);
+               await getOrderItems(setOrder,user,token);
             console.log("user.........",order);
             }
         }
