@@ -6,7 +6,7 @@ import { apiConnector } from "../Helpers/axiosInstance";
 async function fun(setTags,setData,setUser,setToken){
     let data=[];
     let user=localStorage.getItem("user") ? (JSON.parse(localStorage.getItem("user"))) : null;
-    let token=localStorage.getItem("user") ? (localStorage.getItem("user")) : null;
+    let token=localStorage.getItem("token") ? (localStorage.getItem("token")) : null;
     setToken(token);
     setUser(user);
     let tags=await axios.get("https://dummyjson.com/recipes/tags")
