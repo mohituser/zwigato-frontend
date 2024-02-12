@@ -39,7 +39,7 @@ const navigate=useNavigate();
             <Link to="/order"><li className="cursor-pointer hover:scale-[102%] md:mx-3  py-1 md:px-3 mx-2" >
              {user?.role=="admin" ?("orders"):(" Myorders")}
               </li></Link>
-            <li className="cursor-pointer hover:bg-green-700 md:mx-3 mx-2 border-2 rounded-2xl py-1 text-red-400 md:px-3 px-1" onClick={logoutFun} >logout</li>
+            <li className="cursor-pointer hover:bg-green-700 md:mx-3 mx-2 border-2 rounded-2xl py-1 text-red-400 md:px-3 px-1" onClick={logoutFun} >Logout</li>
             </>}
         </ul>
       
