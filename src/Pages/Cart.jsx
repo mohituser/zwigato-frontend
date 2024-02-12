@@ -84,9 +84,7 @@ function Cart() {
 
       try {
         const orderedItem={customerId:user._id,phone,address:liveLocation,quantity:totalItems,items}
-        // const response=await  axios.post("http://localhost:5002/updateOrderItem",{orderedItem},{withCredentials:true});
-        const BASE_URL="https://zwigato-backend-dm7f.onrender.com/updateOrderItem";
-        const response=await apiConnector("POST",BASE_URL,orderedItem);
+        const response=await  axios.post("http://localhost:5002/updateOrderItem",{orderedItem},{withCredentials:true});
         console.log("response",response?.data?.order);
         // setOrder(response?.data?.order);
         // if(response?.data?.success){
