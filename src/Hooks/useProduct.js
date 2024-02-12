@@ -27,16 +27,16 @@ setData(data);
  async function getOrderItems(setOrder,user){
 
 try {
-    if(user?.role=="admin"){
-        const  response=await axios.get("https://zwigato-backend-dm7f.onrender.com/getAllOrders");
-        console.log(response.data);
-        setOrder(response?.data?.order)
-    }
-    else{
+    // if(user?.role=="admin"){
+    //     const  response=await axios.get("https://zwigato-backend-dm7f.onrender.com/getAllOrders");
+    //     console.log(response.data);
+    //     setOrder(response?.data?.order)
+    // }
+    // else{
     const  response=await axios.get("https://zwigato-backend-dm7f.onrender.com/getOrders",{withCredentials:true});
     console.log("use......",response.data);
     setOrder(response?.data?.order)
-}
+// }
     
 } catch (error) {
     console.log("error at getorder...",error);
