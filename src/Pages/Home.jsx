@@ -105,8 +105,8 @@ function Home() {
     <Navbar/>
     < div onClick={(e)=>onClickFun(e)} className="relative  w-full bg-slate-700 text-white overflow-hidden">
         <img src={`https://cdn.dummyjson.com/recipe-images/${randomNumber}.webp`}  alt="" className=" content-stretch  w-[100vw] h-[80vh] opacity-[0.75] brightness-[25%]" />
-        <div className="absolute top-[25vh] md:top-[50vh] left-0 right-0 bg-transparent text-white meal-search w-[100vw]">
-          <h2 className=" text-4xl text-center mb-5">Find Meals For Your Ingredeints</h2>
+        <div className="absolute top-[25vh] md:top-[40vh] left-0 right-0 bg-transparent text-white meal-search w-[100vw]">
+          <h2 className=" text-4xl text-center mb-5">find the dish for which you are Craving</h2>
           <div className="  w-[60%] flex  mx-auto my-3 items-center  ">
             <div className='relative flex w-[100%] '>
             <input

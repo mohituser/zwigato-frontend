@@ -89,9 +89,16 @@ function Cart() {
         const BASE_URL="https://zwigato-backend-dm7f.onrender.com/updateOrderItem";
         // const BASE_URL="http://localhost:5002/updateOrderItem";
         // const response=await apiConnector("POST",BASE_URL,{orderedItem});
-        const response=await apiConnector("POST",BASE_URL,{orderedItem},{
+        let response= apiConnector("POST",BASE_URL,{orderedItem},{
           Authorization: `Bearer ${token}`,
       });
+
+      toast.promise(response ,{
+        pending:"pending",
+        success:"success",
+        error:"rejected"
+      } )
+      response= await response;
         console.log("response",response?.data?.order);
         // setOrder(response?.data?.order);
         // if(response?.data?.success){

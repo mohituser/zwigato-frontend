@@ -43,7 +43,13 @@ function Signup() {
             
             const BASE_URL="https://zwigato-backend-dm7f.onrender.com/register";
             // const BASE_URL="http://localhost:5002/register";
-            const response=await apiConnector("POST",BASE_URL,{...loginData});
+            let response= apiConnector("POST",BASE_URL,{...loginData});
+            toast.promise(response ,{
+                pending:"pending",
+                success:"success",
+                error:"rejected"
+              } )
+              response= await response;
             if(response?.data?.success){
                 console.log(response);
             navigate("/");

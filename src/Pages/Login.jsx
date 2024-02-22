@@ -48,7 +48,13 @@ function Login() {
                 // console.log(response);
                 const BASE_URL="https://zwigato-backend-dm7f.onrender.com/login";
                 // const BASE_URL="http://localhost:5002/login";
-                const response=await apiConnector("POST",BASE_URL,{...loginData});
+                let response = apiConnector("POST",BASE_URL,{...loginData});
+                toast.promise(response ,{
+                    pending:"pending",
+                    success:"success",
+                    error:"rejected"
+                  } )
+                  response= await response;
                 if(response?.data?.success){
                     console.log(response);
                 navigate("/");
