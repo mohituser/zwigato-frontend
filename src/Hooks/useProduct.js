@@ -34,6 +34,7 @@ try {
     if(user?.role=="admin"){
         // const  response=await axios.get("http://localhost:5002/getAllOrders",{withCredentials:true});
         const BASE_URL="https://zwigato-backend-dm7f.onrender.com/getAllOrders";
+        // const BASE_URL="http://localhost:5002/getAllOrders";
         // const response=await apiConnector("GET",BASE_URL);
         const response=await apiConnector("GET",BASE_URL,null,{
             Authorization: `Bearer ${token}`,
@@ -45,6 +46,7 @@ try {
     // const  response=await axios.get("http://localhost:5002/getOrders",{withCredentials:true});
     const BASE_URL="https://zwigato-backend-dm7f.onrender.com/getOrders";
     // const response=await apiConnector("GET",BASE_URL,null,);
+    // const BASE_URL="http://localhost:5002/getOrders";
     const response=await apiConnector("GET",BASE_URL,null,{
         Authorization: `Bearer ${token}`,
     });
@@ -62,7 +64,7 @@ export default function useProduct(){
     const [data,setData]=useState([]);
     const [tags,setTags]=useState([]);
     const [user,setUser]=useState(null);
-    const [order,setOrder]=useState(null);
+    const [order,setOrder]=useState([]);
     const [token,setToken]=useState(null);
     useEffect(()=>{
         fun(setTags,setData,setUser,setToken);

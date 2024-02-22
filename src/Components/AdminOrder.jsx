@@ -1,16 +1,29 @@
 import { userContext } from '../Context/UserContext'
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
+import {io} from "socket.io-client"
 
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import Block from './Block';
 
 function AdminOrder() {
     const {order}=useContext(userContext);
-  
-    
- 
+    const [newOrder ,SetNewOrder]=useState([...order]);
+    const socket=useMemo(()=>io("https://zwigato-backend-dm7f.onrender.com"),[]);
+    // const socket=useMemo(()=>io("http://localhost:5002"),[]);
+socket.on("newOrder",(s)=>{
+  console.log(s);
+  console.log("admin order.........");
+// let id=s.itemId,status=s.status;
+let tempOrder=[s,...newOrder];
+SetNewOrder(tempOrder);
 
+
+});
+useEffect(()=>{
+SetNewOrder([...order]);
+},[order])
+  
   return (
     <div className='bg-slate-700 py-10 min-h-[90vh]'>  
     <div className='  lg:w-[90%] h-auto min-h-[70vh] m-auto text-white'>
@@ -25,7 +38,7 @@ function AdminOrder() {
         <h1 className=' sm:w-[20%] flex text-center justify-center items-center'>  Time</h1>
       </div>
       {
-        order?.map((data,i)=>(
+        newOrder?.map((data,i)=>(
 
 //           <div key={data.id} className='   flex items-center border-b-2 border-gray-500 justify-between m-5 py-3 px-4 '>
 //         <div className=' flex flex-col justify-center sm:w-[40%]   '>

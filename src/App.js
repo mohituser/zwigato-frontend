@@ -8,15 +8,18 @@ import { Routes,Route } from 'react-router-dom'
 import { userContext } from './Context/UserContext';
 import useProduct from './Hooks/useProduct';
 import Cart from './Pages/Cart';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import MyOrders from './Pages/MyOrders';
 import OrdersDetail from './Pages/OrdersDetail';
+import {io} from "socket.io-client"
 
 
 function App() {
   const [tags,setTags,data,setData,user,setUser,order,setOrder,getOrderItems,token,setToken]=useProduct();
   const [cartItem,setCartItem]=useState([]);
   const [totalItems,setTotalItems]=useState(0);
+  // const socket = useMemo(()=>io("http://localhost:5002"),[]);
+  // const socket=io("http://localhost:5002");
   console.log("data at app ",tags);
   return (
     

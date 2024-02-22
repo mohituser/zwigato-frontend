@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import Navbar from '../Components/Navbar';
 import { IoCartOutline } from "react-icons/io5";
 import { FaArrowLeft } from "react-icons/fa";
@@ -8,7 +8,7 @@ import { userContext } from '../Context/UserContext';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { apiConnector } from '../Helpers/axiosInstance';
-
+import {io} from "socket.io-client"
 function Cart() {
     const navigate=useNavigate();
     const {user,setUser,cartItem,setCartItem,setTotalItems,totalItems,order,setOrder,token}=useContext(userContext);
@@ -16,7 +16,8 @@ function Cart() {
     const [phone,setPhone]=useState("");
     const [totalCost,setTotalCost]=useState(0);
 
-    
+    // const socket=useMemo(()=>io("http://localhost:5002"),[]);
+    const socket=useMemo(()=>io("https://zwigato-backend-dm7f.onrender.com"),[]);
 
 
     function removeCartItem(product){
@@ -86,6 +87,7 @@ function Cart() {
         const orderedItem={customerId:user._id,phone,address:liveLocation,quantity:totalItems,items}
         // const response=await  axios.post("http://localhost:5002/updateOrderItem",{orderedItem},{withCredentials:true});
         const BASE_URL="https://zwigato-backend-dm7f.onrender.com/updateOrderItem";
+        // const BASE_URL="http://localhost:5002/updateOrderItem";
         // const response=await apiConnector("POST",BASE_URL,{orderedItem});
         const response=await apiConnector("POST",BASE_URL,{orderedItem},{
           Authorization: `Bearer ${token}`,
@@ -98,8 +100,15 @@ function Cart() {
         setCartItem([]);
         setTotalCost(0);
         setTotalItems(0);
-if(response?.data?.order)
+        let newOrderItem=response?.data?.order;
+        console.log("username ",user);
+        newOrderItem={...newOrderItem,name:user.fullname}
+
+if(response?.data?.order){
+  socket.emit("updateOrder",newOrderItem);
         navigate("/order")
+
+}
         
       } catch (error) {
         

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FaSearch } from "react-icons/fa";
 import Card from '../Components/Card';
 import Navbar from '../Components/Navbar';
@@ -8,6 +8,7 @@ import { FaRegTimesCircle } from "react-icons/fa";
 import axios from 'axios';
 import Card1 from '../Components/Card1';
 import { searchData } from '../Assets/searchData';
+import {io} from "socket.io-client"
 
 function Home() {
   const {tags,data}=useContext(userContext);
@@ -31,6 +32,15 @@ function Home() {
     })
     setItem(x);
   },[])
+
+
+// const socket=useMemo(()=>io("http://localhost:5002"),[]);
+// socket.on("message",(s)=>console.log(s));
+// const socket=io("http://localhost:5002");
+// useEffect(()=>{
+//   console.log("hi............socket......")
+// socket.on("welcome",(s)=>{console.log(s)})
+// },[])
   const [notFound,setNotFound]=useState(false);
 
 
@@ -85,6 +95,9 @@ function Home() {
     }
     console.log("onclicked",e);
   // if(e.target.tagName!="")
+// setRecipe2(null);
+// setRecipe(null);
+
 
   }
   return (
@@ -140,7 +153,7 @@ function Home() {
                     <h1 className='text-3xl text-center my-5  underline  py-5'> Recommended</h1>
                   {  data?.map((dat,i)=>{
                       keyId1++;        
-                      if(i>=limit)return <></>
+                      if(i>=limit || i==0)return <></>
                       return<>
                       <h1 key={keyId1} className='text-2xl border-b-2 border-gray-400'> {tags[i]}</h1>
                       <div key={keyId1} className='flex flex-wrap'>
@@ -189,7 +202,7 @@ function Home() {
         </div>
         }
         {recipe2 &&
-        <div className='bg-green-800  rounded-lg p-5 min-h-[80vh] w-[80vw] fixed top-20 left-20 z-20'>
+        <div   className='bg-green-800  rounded-lg p-5 min-h-[80vh] w-[80vw] fixed top-20 left-20 z-20'>
           <div className='text-2xl flex justify-end'>
             < FaRegTimesCircle  onClick={()=>setRecipe2(null)}/></div>
           <div className="text-2xl font-bold text-center underline mb-5 ">{recipe2?.strMeal}</div>

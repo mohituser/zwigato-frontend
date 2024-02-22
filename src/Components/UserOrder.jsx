@@ -2,10 +2,35 @@ import { userContext } from '../Context/UserContext'
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
 import moment from "moment";
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
+import {io} from "socket.io-client"
 
 function UserOrder() {
     const {order}=useContext(userContext);
+    const [newOrder ,SetNewOrder]=useState([...order]);
+    
+// const socket=useMemo(()=>io("http://localhost:5002"),[]);
+const socket=useMemo(()=>io("https://zwigato-backend-dm7f.onrender.com"),[]);
+socket.on("message",(s)=>{
+  console.log(s);
+// let id=s.itemId,status=s.status;
+let tempOrder=newOrder?.map((data)=>{
+  console.log("mohit............",data._id," ",s.id);
+  if(data._id==s.id){
+    let tempdata={...data};
+    tempdata.status=s.status;
+
+    return tempdata;
+  }
+  else return data;
+})
+console.log(tempOrder);
+SetNewOrder(tempOrder);
+});
+useEffect(()=>{
+SetNewOrder(order);
+},[order])
+
   return (
     <div className='bg-slate-700 py-10 min-h-[90vh]'>  
     <div className='  lg:w-[80%] h-auto min-h-[70vh] m-auto text-white'>
@@ -20,7 +45,7 @@ function UserOrder() {
         <h1 className=' sm:w-[20%] text-center'>  Time</h1>
       </div>
       {
-        order?.map((data)=>(
+        newOrder?.map((data)=>(
 
           <div key={data.id} className='   flex items-center border-b-2  justify-between m-5 px-4 '>
         <div className=' flex flex-col justify-center sm:w-[40%]   '>

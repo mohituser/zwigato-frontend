@@ -47,6 +47,7 @@ function Login() {
                 // const response=await  axios.post("https://zwigato-backend-dm7f.onrender.com/login",{...loginData},{withCredentials:true});
                 // console.log(response);
                 const BASE_URL="https://zwigato-backend-dm7f.onrender.com/login";
+                // const BASE_URL="http://localhost:5002/login";
                 const response=await apiConnector("POST",BASE_URL,{...loginData});
                 if(response?.data?.success){
                     console.log(response);
