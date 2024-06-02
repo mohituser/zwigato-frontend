@@ -7,6 +7,7 @@ async function fun(setTags,setData,setUser,setToken){
     let data=[];
     let user=localStorage.getItem("user") ? (JSON.parse(localStorage.getItem("user"))) : null;
     let token=localStorage.getItem("token") ? (localStorage.getItem("token")) : null;
+   if(token!="undefined") 
     setToken(token);
     setUser(user);
     let tags=await axios.get("https://dummyjson.com/recipes/tags")
@@ -40,7 +41,8 @@ try {
             Authorization: `Bearer ${token}`,
         });
         console.log(response.data);
-        setOrder(response?.data?.order)
+        if(response?.data?.success){
+            setOrder(response?.data?.order);}
     }
     else{
     // const  response=await axios.get("http://localhost:5002/getOrders",{withCredentials:true});
@@ -50,8 +52,12 @@ try {
     const response=await apiConnector("GET",BASE_URL,null,{
         Authorization: `Bearer ${token}`,
     });
-    console.log("use......",response.data);
-    setOrder(response?.data?.order)
+    // const response=await axios.get(BASE_URL,{withCredentials:true});
+    // const response=await fetch(BASE_URL,{credentials: "same-origin"/});
+    // let res=await response.json();
+    console.log("use......",response?.data);
+    if(response?.data?.success){
+    setOrder(response?.data?.order);}
 }
     
 } catch (error) {

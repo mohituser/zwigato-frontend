@@ -4,9 +4,7 @@ import { FaArrowLeft } from "react-icons/fa";
 // import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-// import HomeLayout from '../layouts/HomeLayout';
-// import { login } from '../Redux/Slices/AuthSlice';
-// import { login } from '../Redux/Slices/AuthSlice';
+
 import Navbar from "../Components/Navbar"
 import axios from "axios"
 import { userContext } from '../Context/UserContext';
@@ -16,14 +14,15 @@ function Signup() {
 
     // const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {user,setUser,setToken}=useContext(userContext);
+    const {user,setUser,token,setToken}=useContext(userContext);
     const [loginData, setLoginData] = useState({
         fullname:"",
         email: "",
         password: "",
     });
     useEffect(()=>{
-        document.title="Login";
+        document.title="Signup";
+        if(token){navigate("/")}
         },[])
     function handleUserInput(e) {
         const {name, value} = e.target;
@@ -35,23 +34,31 @@ function Signup() {
 
     async function submitForm(event) {
         event.preventDefault();
-        if(!loginData.email || !loginData.password || !loginData.fullname) {
-            toast.error("Please fill all the details");
-            return;
-        }
+       
         try {
+            if(!loginData.email || !loginData.password || !loginData.fullname) {
+                throw ("Please fill all the details");
             
+            }
             const BASE_URL="https://zwigato-backend-dm7f.onrender.com/register";
             // const BASE_URL="http://localhost:5002/register";
-            let response= apiConnector("POST",BASE_URL,{...loginData});
-            toast.promise(response ,{
-                pending:"pending",
-                success:"success",
-                error:"rejected"
-              } )
+            let response=  apiConnector("POST",BASE_URL,{...loginData});
+            // toast.promise(response ,{
+            //     pending:"pending",
+            //     // success:"success",
+            //     // error:"rejected"
+            //   } )
+            toast.loading("Please wait...")
               response= await response;
+              toast.dismiss();
+              if(response?.data?.error){
+                // toast.error(response?.data?.message);
+                // return;
+                throw response?.data?.message;
+              }
             if(response?.data?.success){
                 console.log(response);
+                toast.success(response?.data?.message);
             navigate("/");
             localStorage.setItem("user",JSON.stringify(response.data.user));
             localStorage.setItem("token",response.data.token);
@@ -66,7 +73,10 @@ function Signup() {
         });
     }
         } catch (error) {
-            console.log("error",error);
+            // console.log("error",error);
+            toast.dismiss();
+
+              toast.error( error);
         }
 
         // dispatch create account action
@@ -74,11 +84,11 @@ function Signup() {
        
     }
 
-    if(user){return navigate("/")}
+    // if(user){navigate("/")}
     return (
         <>
         
-    <Navbar/>
+               <Navbar/>
             <div className='flex overflow-x-auto items-center justify-center h-[90vh] bg-gray-500'>
                 <form noValidate onSubmit={submitForm} className=' relative flex flex-col justify-center gap-3 rounded-lg p-4 text-white w-96 shadow-[0_0_10px_black]'>
                     <h1 className="text-center text-2xl font-bold">Signup Page</h1>

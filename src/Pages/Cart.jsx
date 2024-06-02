@@ -20,24 +20,27 @@ function Cart() {
     const socket=useMemo(()=>io("https://zwigato-backend-dm7f.onrender.com"),[]);
 
 
-    function removeCartItem(product){
+    function removeCartItem(product,add){
       let item=[]
   // let x={name:product.name,id:product.id,image:product.image,flag:1,quantity:1};
   let f=0;
    for(let i=0;i<cartItem.length;i++){
     if(cartItem[i].id==product.id){
-      if(cartItem[i].quantity>1){
-      item.push({name:cartItem[i].name,id:cartItem[i].id,image:cartItem[i].image,flag:1,quantity:cartItem[i].quantity-1});}
+      if(cartItem[i].quantity>1 || add==1){
+      // item.push({name:cartItem[i].name,id:cartItem[i].id,image:cartItem[i].image,flag:1,quantity:cartItem[i].quantity+add});
+      item.push({...cartItem[i],quantity:cartItem[i].quantity+add});
+    }
     }
       else{
         item.push(cartItem[i]);
        }
    }
   //  if(f==0){item.push(x);}
-
+// console.log(item);
    setCartItem(item);
-   setTotalItems(totalItems-1);
-   toast.success("removed from cart")
+   setTotalItems(totalItems+add);
+  if(add==-1) toast.success("removed from cart")
+   else toast.success("added to cart")
    
     }
 
@@ -93,12 +96,15 @@ function Cart() {
           Authorization: `Bearer ${token}`,
       });
 
-      toast.promise(response ,{
-        pending:"pending",
-        success:"success",
-        error:"rejected"
-      } )
+      // toast.promise(response ,{
+      //   pending:"pending",
+      //   success:"success",
+      //   error:"rejected"
+      // } )
+      toast.loading("please wait ...")
       response= await response;
+      toast.dismiss();
+
         console.log("response",response?.data?.order);
         // setOrder(response?.data?.order);
         // if(response?.data?.success){
@@ -118,7 +124,8 @@ if(response?.data?.order){
 }
         
       } catch (error) {
-        
+        toast.dismiss();
+        toast.error(error.message || error)
       }
     }
     else {navigate("/")}
@@ -150,32 +157,39 @@ function fun2(e){
   return (
     <>
     <Navbar/>
-    <div className='bg-slate-700 m-0 min-h-[90vh]'>
-        {/* <div className='text-3xl flex flex-col text-white justify-center items-center text-center p-5 '>
+
+    {cartItem.length==0 ?(
+       <div className='text-3xl h-[100vh] w-[100vw] md:h-[calc(100vh-20vh)] bg-slate-700 flex flex-col text-white justify-center items-center text-center p-5 '>
             Cart Empty ☹️
-            <IoCartOutline size={"70vh"}/>
+            <IoCartOutline className=' h-40vh md:h-[70vh]' size={"60vh"}/>
             <button onClick={()=>navigate(-1)} className='bg-green-700  py-2 px-5 rounded-2xl flex justify-between items-center'><FaArrowLeft /><span className='mx-2'>Go Back</span></button>
-            </div> */}
+            </div>
+          ):(
+    <div className='bg-slate-700  min-h-[calc(100vh-20vh)]  mb-0 pb-0 '>
+       
         <div className='  md:w-[80%] h-auto min-h-[70vh] m-auto text-white'>
           <div className='flex text-2xl items-center border-b-2 mx-5 pt-5  border-gray-400'><IoCartOutline size={"3rem"}/><span className='mx-4'>Order Summary</span> </div>
 
-          <div className='flex items-center justify-between m-5 px-4 border-b-2 border-gray-400'>
+          {/* <div className='flex items-center justify-between m-5 px-4 border-b-2 border-gray-400'>
             <div className='flex items-center w-[60%]'>
                 <img src="https://cdn.dummyjson.com/recipe-images/9.webp" alt=""  className='w-[100px] h-[100px] rounded-full shadow-2xl object-fill   m-3'/>
                 <div>name</div>
             </div>
             <div className='w-[20%]'> 1 Pcs</div>
             <h1 className=' w-[20%] flex justify-center items-center'> <FaIndianRupeeSign /> 120</h1>
-          </div>
+          </div> */}
           {
             cartItem.map((data)=>(
 
-              <div key={data.id} className='flex items-center  justify-between m-5 px-4 border-b-2 border-gray-400'>
-              <div className='flex items-center w-[60%]'>
+              <div key={data.id} className='flex  items-center  justify-between m-5 px-4 border-b-2 border-gray-400'>
+              <div className='flex flex-col md:flex-row m-3 items-center w-[60%]'>
                   <img src={data.image} alt=""  className='w-[100px] h-[100px] rounded-full shadow-2xl object-fill   m-3'/>
                   <div className='flex flex-col'>
-                  <div>{data.name}</div>
-                  <button onClick={()=>removeCartItem(data)} className='border-2 hover:bg-green-600 transition-all ease-in-out duration-500 border-green-600 w-14 py-1 px-2 rounded-2xl'>-1 </button>
+                  <div >{data.name}</div>
+                  <div className='flex justify-around'>
+                  <button onClick={()=>removeCartItem(data,-1)} className='border-2 hover:bg-green-600 transition-all ease-in-out duration-500 border-green-600 w-14 py-1 px-2 rounded-2xl'>-1 </button>
+                  <button onClick={()=>removeCartItem(data,1)} className='border-2 hover:bg-green-600 transition-all ease-in-out duration-500 border-green-600 w-14 py-1 px-2 rounded-2xl'>+1 </button>
+                  </div>
                   </div>
               </div>
               <div className='w-[20%]'>{data.quantity} Pcs</div>
@@ -185,12 +199,17 @@ function fun2(e){
           }
           <div className=''>
             <div className='flex items-center justify-end text-2xl mb-10'> <span>Total Amount: </span> <span className='flex items-center mx-3  text-green-600 font-bold'><FaIndianRupeeSign /> {totalCost} </span></div>
-            <div className='flex flex-col  items-end justify-center m-3 ' ><input type="text" className='py-1 px-3 text-black'  placeholder='your address' onChange={(e)=>fun2(e)} value={liveLocation}/> <button onClick={getLocation} className='hover:bg-green-600 transistion-all duration-500 py-1 px-5 my-3 bg-green-700   rounded-2xl font-bold'>live location</button> </div>
-            <div className='flex flex-col  items-end justify-center m-3 ' ><input type="text"  className='py-1 my-5 px-3 text-black'  placeholder=' contact number' value={phone} onChange={(e)=>PhoneFun(e)} />  </div>
-            <div className='flex items-center justify-end m-3 '><button onClick={Order} className=' hover:bg-green-600 transistion-all duration-500 bg-green-700 py-1 px-5 my-5 rounded-2xl font-bold'>Order Now</button></div>
+            <div className='flex flex-col  items-end justify-center m-3 ' ><input type="text" className='py-1 px-3 text-black'  placeholder='your address' onChange={(e)=>fun2(e)} value={liveLocation}/>
+             <button onClick={getLocation} className='hover:bg-green-600 transistion-all duration-500 py-1 px-2 my-3 bg-green-700   rounded-2xl font-bold'>live location</button>
+              </div>
+              <div className='flex flex-col  items-end justify-center m-3 mb-0 pb-0'>
+            <div className='flex flex-col  items-end justify-center m-1 ' ><input type="text"  className='py-1 my-2 px-3 text-black'  placeholder=' contact number' value={phone} onChange={(e)=>PhoneFun(e)} />  </div>
+            <div className='flex items-center justify-end pb-3'><button onClick={Order} className=' hover:bg-green-600 transistion-all duration-500 bg-green-700 py-1 px-2 my-2 rounded-2xl  font-bold'>Order Now</button></div>
+            </div>
           </div>
         </div>
     </div>
+  ) }
     </>
   )
 }

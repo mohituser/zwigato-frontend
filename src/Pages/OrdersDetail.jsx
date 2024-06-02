@@ -86,17 +86,17 @@ function OrdersDetail() {
      }
     },[])
   return (
-    <div className='bg-slate-400 m-0 h-[100vh]'>
+    <>  
     <Navbar/>
-    <div className='h-[90%] flex justify-center items-center'>
-      <div className=' w-[80%] lg:w-[60%] '> 
-           <div className='flex justify-between'> 
-          <div className='text-2xl font-bold mb-6 '>Track Delivery Status</div>
-           <div className=' text-green-800 w-[40%] text-center'>{orderId}</div>
-          </div>
-        <div className='flex flex-col font-bold'>
+    <div className='bg-slate-400 m-0 min-h-[calc(100vh-20vh)]'>
+    <div className='h-[90%]  '>
+      <div className=' w-[80%] md:w-[60%] pt-6  mx-auto flex flex-col justify-center items-center '> 
+           <div className='flex justify-between w-full gap-4 flex-col  items-center'> 
+          <div className='text-2xl font-bold mb-0 text-wrap'>Track Delivery Status</div>
+            <div className='   text-center font-bold mb-5'>{orderId}</div>
+          <div className='flex flex-col w-full font-bold'>
         { track.map((item)=>( 
-          <div className='flex justify-between  items-start'>
+          <div className='flex justify-between w-full items-start'>
         <div className={`flex ${currStatus>item.id?("text-gray-600"):""}  ${currStatus==item.id?"text-green-800":""} items-start gap-x-3 `}>
             {/* <AiOutlineFileDone size={"50px"}/> */}
             {item.logo}
@@ -106,22 +106,27 @@ function OrdersDetail() {
             </div>
             <div className='mt-1' >{item.title}</div>
           </div>
-          <div className='text-gray-600 w-[40%] text-center'> 
+          <div className=' w-[40%] text-center text-green-800'> 
       {
-        currStatus==item.id+1  &&
+        currStatus==item.id  ?(
 
-   ( moment(data?.updatedAt).format("hh:mm a"))
-
+   <div >{moment(data?.updatedAt).format("hh:mm a")}</div>
+        ):(<div className=' text-black'>-</div>)
 }
       </div>
           </div> ))}
 
         </div>
 
+          </div>
+       
+
       
       </div>
     </div>
     </div>
+    </>
+  
   )
 }
 

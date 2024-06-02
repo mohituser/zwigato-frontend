@@ -12,7 +12,7 @@ import {io} from "socket.io-client"
 
 function Home() {
   const {tags,data}=useContext(userContext);
-  console.log("data at home",data);
+  // console.log("data at home",data);
   const [recipe,setRecipe]=useState(null);
   const [recipe2,setRecipe2]=useState(null);
   const [limit,setLimit]=useState(4);
@@ -25,14 +25,21 @@ function Home() {
   const [randomNumber,setRandomNumuber]=useState(1);
   useEffect(()=>{
 
-    let randomNumber= Math.floor((Math.random() * 10) + 1);
-    setRandomNumuber(randomNumber);
+    // let randomNumber= Math.floor((Math.random() * 10) + 1);
+    // setRandomNumuber(randomNumber);
     let x=searchData.map((data,i)=>{
     return data;
     })
     setItem(x);
   },[])
-
+useEffect(()=>{
+  const timeout=setInterval(()=>{
+    let randomNumber= Math.floor((Math.random() * 10) + 1);
+    setRandomNumuber(randomNumber);
+    console.log(randomNumber);
+  },5000)
+  return ()=>clearInterval(timeout)
+},[randomNumber])
 
 // const socket=useMemo(()=>io("http://localhost:5002"),[]);
 // socket.on("message",(s)=>console.log(s));
@@ -70,6 +77,8 @@ function Home() {
       try {
       
       const res=await axios.get( `https://www.themealdb.com/api/json/v1/1/filter.php?i=${val}`);
+      // const res=await axios.get(`https://api.unsplash.com/photos/random?query=food&client_id=5ep6j2xkYynms1Pwr5UFiT5axdsmH0TisU4YihR6MZY`);
+    
       setSearchResult(res?.data?.meals);
       console.log(res?.data?.meals);
         
@@ -103,11 +112,11 @@ function Home() {
   return (
     <>
     <Navbar/>
-    < div onClick={(e)=>onClickFun(e)} className="relative  w-full bg-slate-700 text-white overflow-hidden">
-        <img src={`https://cdn.dummyjson.com/recipe-images/${randomNumber}.webp`}  alt="" className=" content-stretch  w-[100vw] h-[80vh] opacity-[0.75] brightness-[25%]" />
+    < div onClick={(e)=>onClickFun(e)} className={`relative ${(recipe || recipe2) && "opacity-70" } m-0 p-0 w-[100vw] bg-slate-700 text-white overflow-x-hidden`}>
+        <img src={`https://cdn.dummyjson.com/recipe-images/${randomNumber}.webp`}  alt="" className=" content-stretch transition-all   w-[100vw] h-[80vh] opacity-[0.75] brightness-[25%]" />
         <div className="absolute top-[25vh] md:top-[40vh] left-0 right-0 bg-transparent text-white meal-search w-[100vw]">
-          <h2 className=" text-4xl text-center mb-5">find the dish for which you are Craving</h2>
-          <div className="  w-[60%] flex  mx-auto my-3 items-center  ">
+          <h2 className=" w-[90%] md:w-[80%]  mx-auto text-4xl text-center text-wrap mb-5">find the dish for which you are Craving</h2>
+          <div className="  md:w-[60%] w-[95%]  flex  mx-auto my-3 items-center  ">
             <div className='relative flex w-[100%] '>
             <input
               type="text"
@@ -118,7 +127,7 @@ function Home() {
               onClick={()=>SetShowSearchData(true)}
               onKeyPress={(e)=>{onsubmitFun(e)}}
             />
-            <button onClick={(e)=>onsubmitFun(e)} type="submit" className="w-[15%] group p-2 flex justify-center rounded-r-full hover:bg-green-700 bg-green-800" >
+            <button onClick={(e)=>onsubmitFun(e)} type="submit" className="w-[10%] min-w-[60px] group p-2 flex justify-center rounded-r-full hover:bg-green-700 bg-green-800" >
              <FaSearch  className=" text-2xl group-hover:scale-105 "/> 
             </button>
            { showSearchData &&  <div className='absolute top-10 left-5 rounded-lg px-4 w-auto text-black  bg-slate-200'>
@@ -155,7 +164,7 @@ function Home() {
                       keyId1++;        
                       if(i>=limit || i==0)return <></>
                       return<>
-                      <h1 key={keyId1} className='text-2xl border-b-2 border-gray-400'> {tags[i]}</h1>
+                      <h1 key={keyId1+tags[i]} className='text-2xl border-b-2 border-gray-400'> {tags[i]}</h1>
                       <div key={keyId1} className='flex flex-wrap'>
                       {dat?.recipes.map((d,j)=>{
                          keyId++;
@@ -171,8 +180,11 @@ function Home() {
        
         </div>
      <div className='text-center my-7'><button disabled={limit<tags.length ?(false):(true)} onClick={()=>{setLimit(limit+4)}} className={`border-2 p-2  hover:bg-green-700 rounded-lg bg-green-800`}>load more</button></div> 
+     </div>
     {recipe &&
-        <div className='bg-green-800  rounded-lg p-5 min-h-[80vh] w-[80vw] fixed top-20 left-20 z-20'>
+    <div  className='fixed left-0 right-0 top-0 bottom-0  z-20 bg-opacity-70 flex justify-center items-center  '>
+
+        <div className='bg-green-800  rounded-lg p-5 min-h-[80vh] w-[80vw]   '>
           <div className='text-2xl flex justify-end'>
             < FaRegTimesCircle  onClick={()=>setRecipe(null)}/></div>
           <div className="text-2xl font-bold text-center underline mb-5 ">{recipe?.name}</div>
@@ -200,9 +212,11 @@ function Home() {
           </div>
           
         </div>
+        </div>
         }
         {recipe2 &&
-        <div   className='bg-green-800  rounded-lg p-5 min-h-[80vh] w-[80vw] fixed top-20 left-20 z-20'>
+            <div  className='fixed left-0 right-0 top-0 bottom-0  z-20 bg-opacity-70 flex justify-center items-center  '>
+        <div   className='bg-green-800  rounded-lg p-5 min-h-[80vh] w-[80vw] '>
           <div className='text-2xl flex justify-end'>
             < FaRegTimesCircle  onClick={()=>setRecipe2(null)}/></div>
           <div className="text-2xl font-bold text-center underline mb-5 ">{recipe2?.strMeal}</div>
@@ -222,8 +236,9 @@ function Home() {
           </div>
           
         </div>
+        </div>
         }
-    </div>
+    {/* </div> */}
     </>
   )
 }

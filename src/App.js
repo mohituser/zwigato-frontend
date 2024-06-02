@@ -12,6 +12,7 @@ import { useMemo, useState } from 'react';
 import MyOrders from './Pages/MyOrders';
 import OrdersDetail from './Pages/OrdersDetail';
 import {io} from "socket.io-client"
+import Footer from './Components/Footer';
 
 
 function App() {
@@ -35,7 +36,7 @@ function App() {
         <Route path='/order/detail/:orderId' element={<OrdersDetail/>}/>
       </Routes>
    
-
+      <Footer/>
     </userContext.Provider>
   );
 }

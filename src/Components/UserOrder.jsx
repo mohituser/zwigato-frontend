@@ -32,7 +32,7 @@ SetNewOrder(order);
 },[order])
 
   return (
-    <div className='bg-slate-700 py-10 min-h-[90vh]'>  
+    <div className='bg-slate-700 py-10  h-[100vh] w-[100vw] md:h-[calc(100vh-20vh)]'>  
     <div className='  lg:w-[80%] h-auto min-h-[70vh] m-auto text-white'>
       <div className='text-3xl text-center  mx-5 pt-5  underline'> All Orders</div>
 

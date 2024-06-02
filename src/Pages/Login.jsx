@@ -22,6 +22,7 @@ function Login() {
     });
     useEffect(()=>{
         document.title="Login";
+        if(user){navigate("/")}
         },[])
     function handleUserInput(e) {
         const {name, value} = e.target;
@@ -33,28 +34,42 @@ function Login() {
 
     async function onLogin(event) {
         event.preventDefault();
-        if(!loginData.email || !loginData.password) {
-            toast.error("Please fill all the details");
-            return;
-        }
+        
 
         // dispatch create account action
         // const response = await dispatch(login(loginData));
         // if(response?.payload?.success)
             // navigate("/");
             try {
-            
+                if(!loginData.email || !loginData.password) {
+                    throw "Please fill all the details"
+                    // return;
+                }
                 // const response=await  axios.post("https://zwigato-backend-dm7f.onrender.com/login",{...loginData},{withCredentials:true});
                 // console.log(response);
                 const BASE_URL="https://zwigato-backend-dm7f.onrender.com/login";
                 // const BASE_URL="http://localhost:5002/login";
-                let response = apiConnector("POST",BASE_URL,{...loginData});
-                toast.promise(response ,{
-                    pending:"pending",
-                    success:"success",
-                    error:"rejected"
-                  } )
-                  response= await response;
+
+                // console.log("login is happening before")
+
+
+                toast.loading("Please wait...")
+                let response = await apiConnector("POST",BASE_URL,{...loginData});
+                toast.dismiss();
+
+
+                // toast.promise(response ,{
+                //         pending:"pending",
+                //     //     // success:"success",
+                //     //     // error:"rejected"
+                //       } )
+                    // response= await response;
+
+
+                    console.log("login is happening after")
+                  if(response?.data?.error){
+                    throw response.data.message
+                  }
                 if(response?.data?.success){
                     console.log(response);
                 navigate("/");
@@ -62,26 +77,31 @@ function Login() {
                 localStorage.setItem("token",response.data.token);
                 setUser(response.data.user);
                 setToken(response.data.token);
-               toast.success("login successfully")
-            setLoginData({
-                email: "",
-                password: "",
-                // fullname:"",
-                
-            });
+                setLoginData({
+                    email: "",
+                    password: "",
+                    // fullname:"",
+                    
+                });
+                toast.success(response?.data?.message)     
         }
+        // {throw response?.data?.message }
             } catch (error) {
+                toast.dismiss();
                 // setLoginData({
                 //     email: "",
                 //     password: "",
                 //     // fullname:"",
                     
                 // });
-                // console.log("error",error.response.data.message);
-                toast.error(error)
+                console.log("error",error);
+                toast.error(error);
             }
+            // console.log("hieairei0e")
+            // finally{
+        
     }
-    if(user){ return navigate("/")}
+    // if(user){ return navigate("/")}
 
     return (
         <>
@@ -129,6 +149,6 @@ function Login() {
             </div>
         </>
     );
-}
 
+}
 export default Login;
