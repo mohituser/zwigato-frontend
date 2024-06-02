@@ -18,7 +18,7 @@ const navigate=useNavigate();
   navigate("/")
 }
   return (
-    <div className=' bg-green-800 h-[12vh] text-white w-[100vw] '>
+    <div className=' bg-green-800 h-[12vh] text-white  '>
     <div className=' flex w-[90%] md:w-[80%] h-full items-center    md:m-auto mx-3  justify-between'>
       <div>
         {/* <img src={image} className="w-20" alt="" /> */}

@@ -62,7 +62,7 @@ async function handleSubmit() {
 
   return (
     <>
-    <footer className='bg-green-800 h-[8vh] w-[100vw]'>
+    <footer className='bg-green-800 h-[8vh] '>
       <div className='container mx-auto '>
        <p onClick={()=>setShowForm(true)} className='text-center font-bold pt-2  text-2xl transition-all text-white hover:underline cursor-pointer hover:text-green-200'  >Contact Me</p>
       </div>

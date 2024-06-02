@@ -159,10 +159,15 @@ function fun2(e){
     <Navbar/>
 
     {cartItem.length==0 ?(
-       <div className='text-3xl h-[100vh] w-[100vw] md:h-[calc(100vh-20vh)] bg-slate-700 flex flex-col text-white justify-center items-center text-center p-5 '>
+       <div className='text-3xl h-[calc(100vh-20vh)] bg-slate-700 flex flex-col text-white justify-center items-center text-center p-5 '>
             Cart Empty ☹️
-            <IoCartOutline className=' h-40vh md:h-[70vh]' size={"60vh"}/>
-            <button onClick={()=>navigate(-1)} className='bg-green-700  py-2 px-5 rounded-2xl flex justify-between items-center'><FaArrowLeft /><span className='mx-2'>Go Back</span></button>
+            <div className="sm:block hidden">
+            <IoCartOutline className=' ' size={"60vh"}/>
+            </div>
+            <div className="block sm:hidden">
+            <IoCartOutline className=' ' size={"45vh"}/>
+            </div>
+            <button onClick={()=>navigate(-1)} className='bg-green-700 py-1 md:py-2 px-5 rounded-2xl flex justify-between items-center'><FaArrowLeft /><span className='mx-2'>Go Back</span></button>
             </div>
           ):(
     <div className='bg-slate-700  min-h-[calc(100vh-20vh)]  mb-0 pb-0 '>
@@ -184,7 +189,7 @@ function fun2(e){
               <div key={data.id} className='flex  items-center  justify-between m-5 px-4 border-b-2 border-gray-400'>
               <div className='flex flex-col md:flex-row m-3 items-center w-[60%]'>
                   <img src={data.image} alt=""  className='w-[100px] h-[100px] rounded-full shadow-2xl object-fill   m-3'/>
-                  <div className='flex flex-col'>
+                  <div className='flex flex-col gap-2'>
                   <div >{data.name}</div>
                   <div className='flex justify-around'>
                   <button onClick={()=>removeCartItem(data,-1)} className='border-2 hover:bg-green-600 transition-all ease-in-out duration-500 border-green-600 w-14 py-1 px-2 rounded-2xl'>-1 </button>

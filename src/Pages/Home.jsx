@@ -112,7 +112,7 @@ useEffect(()=>{
   return (
     <>
     <Navbar/>
-    < div onClick={(e)=>onClickFun(e)} className={`relative ${(recipe || recipe2) && "opacity-70" } m-0 p-0 w-[100vw] bg-slate-700 text-white overflow-x-hidden`}>
+    < div onClick={(e)=>onClickFun(e)} className={`relative ${(recipe || recipe2) && "opacity-70" } m-0 p-0  bg-slate-700 text-white overflow-x-hidden`}>
         <img src={`https://cdn.dummyjson.com/recipe-images/${randomNumber}.webp`}  alt="" className=" content-stretch transition-all   w-[100vw] h-[80vh] opacity-[0.75] brightness-[25%]" />
         <div className="absolute top-[25vh] md:top-[40vh] left-0 right-0 bg-transparent text-white meal-search w-[100vw]">
           <h2 className=" w-[90%] md:w-[80%]  mx-auto text-4xl text-center text-wrap mb-5">find the dish for which you are Craving</h2>
