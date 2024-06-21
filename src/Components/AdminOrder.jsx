@@ -21,11 +21,12 @@ SetNewOrder(tempOrder);
 
 });
 useEffect(()=>{
+  console.log("setting order at admin..",order);
 SetNewOrder([...order]);
 },[order])
   
   return (
-    <div className='bg-slate-700 py-10 h-[100vh] w-[100vw] md:h-[calc(100vh-20vh)]'>  
+    <div className='bg-slate-700 py-10 min-h-[100vh]  md:min-h-[calc(100vh-20vh)]'>  
     <div className='  lg:w-[90%] h-auto min-h-[70vh] m-auto text-white'>
       <div className=' text-3xl items-center  mx-5 pt-5 text-center underline'> All Orders</div>
 

@@ -21,9 +21,10 @@ async function fun(setTags,setData,setUser,setToken){
         // data.push({tag:res});
         return res.data;
     })
+    // console.log("data.......1",data);
     data=await axios.all(data);
-
     console.log("data.......",data);
+
 
 setData(data);
  
@@ -45,17 +46,20 @@ try {
             setOrder(response?.data?.order);}
     }
     else{
-    // const  response=await axios.get("http://localhost:5002/getOrders",{withCredentials:true});
-    const BASE_URL="https://zwigato-backend-dm7f.onrender.com/getOrders";
-    // const response=await apiConnector("GET",BASE_URL,null,);
-    // const BASE_URL="http://localhost:5002/getOrders";
+        const BASE_URL="https://zwigato-backend-dm7f.onrender.com/getOrders";
+        // const response=await apiConnector("GET",BASE_URL,null,);
+        // const BASE_URL="http://localhost:5002/getOrders";
+        // const  response=await fetch("http://localhost:5002/get/");
+
     const response=await apiConnector("GET",BASE_URL,null,{
         Authorization: `Bearer ${token}`,
     });
     // const response=await axios.get(BASE_URL,{withCredentials:true});
     // const response=await fetch(BASE_URL,{credentials: "same-origin"/});
     // let res=await response.json();
+    console.log("changeeeeeeeeeeeee........")
     console.log("use......",response?.data);
+
     if(response?.data?.success){
     setOrder(response?.data?.order);}
 }

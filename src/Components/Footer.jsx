@@ -64,7 +64,7 @@ async function handleSubmit() {
     <>
     <footer className='bg-green-800 h-[8vh] '>
       <div className='container mx-auto '>
-       <p onClick={()=>setShowForm(true)} className='text-center font-bold pt-2  text-2xl transition-all text-white hover:underline cursor-pointer hover:text-green-200'  >Contact Me</p>
+       <p onClick={()=>{setShowForm(true)}} className='text-center font-bold pt-2  text-2xl transition-all text-white hover:underline cursor-pointer hover:text-green-200'  >Contact Me</p>
       </div>
     </footer>
     {showForm && 
@@ -86,7 +86,7 @@ async function handleSubmit() {
               <div className='md:w-[80%] w-full mx-auto'>
               <label>
               <div>Email :</div> 
-              <input type="text" onChange={handleOnChange}    placeholder='email'  name="Email" className='p-2 mt-2 bg-slate-300 mb-4 w-full md:w-[90%]' value={data.Email}/>
+              <input type="text" onChange={handleOnChange}    placeholder='your email'  name="Email" className='p-2 mt-2 bg-slate-300 mb-4 w-full md:w-[90%]' value={data.Email}/>
               </label>   
               </div>
               <div className='md:w-[80%] w-full mx-auto'>
@@ -95,7 +95,7 @@ async function handleSubmit() {
     
               <textarea 
                 className='h-28 md:w-[90%] w-full mt-2 mb-4 p-2 bg-slate-300 border resize-none ' 
-                placeholder='enter your query' 
+                placeholder='enter your query or feedback' 
                 rows={3} 
                 onChange={handleOnChange} 
                 name='Description'

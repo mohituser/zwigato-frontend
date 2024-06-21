@@ -78,6 +78,9 @@ function Cart() {
         if(phone==""){
           return toast.error("Contact number is required")
         }
+        if(phone.length!=10){
+          return toast.error("give a valid 10 digit number")
+        }
         if(!user){
           navigate("/login");
           return;
@@ -143,6 +146,7 @@ function fun2(e){
       let f=0;
       if(number[0]=='0' || number.length>10){
        return toast.error("enter 10 digit  number")
+
       }
       for(let i=0;i<number.length;i++){
         if(number[i]>='0' && number[i]<='9'){}

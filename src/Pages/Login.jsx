@@ -32,16 +32,17 @@ function Login() {
         })
     }
 
-    async function onLogin(event) {
-        event.preventDefault();
-        
+    async function onLogin(obj) {
+        // event.preventDefault();
+        console.log(loginData);
 
         // dispatch create account action
         // const response = await dispatch(login(loginData));
         // if(response?.payload?.success)
             // navigate("/");
+        setLoginData(obj);
             try {
-                if(!loginData.email || !loginData.password) {
+                if(!obj.email || !obj.password) {
                     throw "Please fill all the details"
                     // return;
                 }
@@ -54,7 +55,7 @@ function Login() {
 
 
                 toast.loading("Please wait...")
-                let response = await apiConnector("POST",BASE_URL,{...loginData});
+                let response = await apiConnector("POST",BASE_URL,{...obj});
                 toast.dismiss();
 
 
@@ -72,7 +73,7 @@ function Login() {
                   }
                 if(response?.data?.success){
                     console.log(response);
-                navigate("/");
+                navigate(-1);
                 localStorage.setItem("user",JSON.stringify(response.data.user));
                 localStorage.setItem("token",response.data.token);
                 setUser(response.data.user);
@@ -95,13 +96,21 @@ function Login() {
                     
                 // });
                 console.log("error",error);
-                toast.error(error);
+                toast.error("error at login side",error);
             }
             // console.log("hieairei0e")
             // finally{
         
     }
     // if(user){ return navigate("/")}
+
+function fun1(e,obj){
+    e.preventDefault();
+    // setLoginData(obj);
+     onLogin(obj);
+    
+}
+
 
     return (
         <>
@@ -137,12 +146,18 @@ function Login() {
                         />
                     </div>
 
-                    <button type="submit" className='mt-2 bg-green-700  hover:bg-green-600  transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer'>
+                    <button onClick={(e)=>fun1(e,loginData)} className='mt-2 bg-green-700  hover:bg-green-600  transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer'>
                        Login
+                    </button>
+                    <button  onClick={(e)=>fun1(e,{email:"user1@gmail.com",password:"1234567"})} className='mt-2 bg-green-700  hover:bg-green-600  transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer'>
+                       Login as a customer
+                    </button>
+                    <button onClick={(e)=>fun1(e,{email:"user@gmail.com",password:"1234567"})} className='mt-2 bg-green-700  hover:bg-green-600  transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer'>
+                       Login as a admin
                     </button>
 
                     <p className="text-center">
-                        Donot hanve an account ? <Link to="/signup" className=' text-blue-200 underline cursor-pointer'> Signup</Link>
+                        Don't have an account ? <Link to="/signup" className=' text-blue-200 underline cursor-pointer'> Signup</Link>
                     </p>
 
                 </form>

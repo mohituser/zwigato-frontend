@@ -8,6 +8,7 @@ import { FaRegTimesCircle } from "react-icons/fa";
 import axios from 'axios';
 import Card1 from '../Components/Card1';
 import { searchData } from '../Assets/searchData';
+import { imageData } from '../Assets/searchData';
 import {io} from "socket.io-client"
 
 function Home() {
@@ -34,12 +35,17 @@ function Home() {
   },[])
 useEffect(()=>{
   const timeout=setInterval(()=>{
-    let randomNumber= Math.floor((Math.random() * 10) + 1);
-    setRandomNumuber(randomNumber);
+    // let randomNumber= Math.floor((Math.random() * 6) );
+    let x=randomNumber+1;
+if(x>=6)x=0;
+    setRandomNumuber(x);
     console.log(randomNumber);
   },5000)
   return ()=>clearInterval(timeout)
-},[randomNumber])
+},[randomNumber]);
+// 
+
+
 
 // const socket=useMemo(()=>io("http://localhost:5002"),[]);
 // socket.on("message",(s)=>console.log(s));
@@ -113,7 +119,8 @@ useEffect(()=>{
     <>
     <Navbar/>
     < div onClick={(e)=>onClickFun(e)} className={`relative ${(recipe || recipe2) && "opacity-70" } m-0 p-0  bg-slate-700 text-white overflow-x-hidden`}>
-        <img src={`https://cdn.dummyjson.com/recipe-images/${randomNumber}.webp`}  alt="" className=" content-stretch transition-all   w-[100vw] h-[80vh] opacity-[0.75] brightness-[25%]" />
+        {/* <img src={`https://cdn.dummyjson.com/recipe-images/${randomNumber}.webp`}  alt="" className=" content-stretch transition-all   w-[100vw] h-[80vh] opacity-[0.75] brightness-[25%]" /> */}
+        <img src={imageData[randomNumber]}  alt="" className=" content-stretch transition-all   w-[100vw] h-[80vh] opacity-[0.75] brightness-[25%]" />
         <div className="absolute top-[25vh] md:top-[40vh] left-0 right-0 bg-transparent text-white meal-search w-[100vw]">
           <h2 className=" w-[90%] md:w-[80%]  mx-auto text-4xl text-center text-wrap mb-5">find the dish for which you are Craving</h2>
           <div className="  md:w-[60%] w-[95%]  flex  mx-auto my-3 items-center  ">
@@ -182,7 +189,7 @@ useEffect(()=>{
      <div className='text-center my-7'><button disabled={limit<tags.length ?(false):(true)} onClick={()=>{setLimit(limit+4)}} className={`border-2 p-2  hover:bg-green-700 rounded-lg bg-green-800`}>load more</button></div> 
      </div>
     {recipe &&
-    <div  className='fixed left-0 right-0 top-0 bottom-0  z-20 bg-opacity-70 flex justify-center items-center  '>
+    <div  className='fixed left-0 right-0 top-0 bottom-0  z-50 bg-opacity-70 flex justify-center items-center  '>
 
         <div className='bg-green-800  rounded-lg p-5 min-h-[80vh] w-[80vw]   '>
           <div className='text-2xl flex justify-end'>
@@ -215,7 +222,7 @@ useEffect(()=>{
         </div>
         }
         {recipe2 &&
-            <div  className='fixed left-0 right-0 top-0 bottom-0  z-20 bg-opacity-70 flex justify-center items-center  '>
+            <div  className='fixed left-0 right-0 top-0 bottom-0  z-50 bg-opacity-70 flex justify-center items-center  '>
         <div   className='bg-green-800  rounded-lg p-5 min-h-[80vh] w-[80vw] '>
           <div className='text-2xl flex justify-end'>
             < FaRegTimesCircle  onClick={()=>setRecipe2(null)}/></div>

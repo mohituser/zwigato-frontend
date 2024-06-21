@@ -59,7 +59,7 @@ function Signup() {
             if(response?.data?.success){
                 console.log(response);
                 toast.success(response?.data?.message);
-            navigate("/");
+            navigate(-1);
             localStorage.setItem("user",JSON.stringify(response.data.user));
             localStorage.setItem("token",response.data.token);
             setUser(response.data.user);
@@ -138,9 +138,11 @@ function Signup() {
                     </button>
 
                     <p className="text-center">
-                        Already have an account ? <Link to="/login" className=' text-blue-200 underline cursor-pointer'> Login</Link>
+                        Already have an account  ? <Link to="/login" className=' text-blue-200 underline cursor-pointer'> Login</Link>
                     </p>
-
+                    <p className="text-center">
+                        Are you guest ? <Link to="/login" className=' text-blue-200 underline cursor-pointer'> Login</Link>
+                    </p>
                 </form>
             </div>
         </>
